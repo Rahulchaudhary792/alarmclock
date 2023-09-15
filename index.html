@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset = "UTF-8">
+      <meta name = "Description" content = "MyDescription">
+      <meta name = "Author" content = "Id, Phonenumber">
+      <meta name = "Keywords" content = "HTML, CSS, BOOTSTRAP, JAVASCRIPT TUTORIALS">
+      <meta name = "Viewport" content = "width=device-width, initial-scale=1.0">
+      <title>Page</title>
+      <style>
+         .clock-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 100px;
+         }
+         .clock-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+         .items-div {
+            width: 300px;
+            min-height: 320px;
+            background-color: white;
+            border-radius: 3px;
+         }
+         .overall-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 200px;
+         }
+         .time-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial;
+         }
+         .selection-div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: 30px;
+            margin-right: 30px;
+         }
+         .button-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+         }
+         .alarm-button {
+            width: 240px;
+            height: 40px;
+            background-color: rgb(88, 88, 222);
+            color: white;
+            font-family: Arial;
+            border: 2px solid lightgray;
+            border-radius: 3px;
+         }
+         select {
+            width: 70px;
+            height: 30px;
+            border: 2px solid lightgray;
+            border-radius: 3px;
+            background-color: white;
+            font-family: Arial;
+         }
+         body {
+            background-color: black;
+         }
+      </style>
+   </head>
+   <body>
+     <div class = "overall-div">
+        <div class = "items-div">
+           <div class = "clock-div">
+              <img src = "https://th.bing.com/th/id/OIP.p1fhEg0XX8w5pud3KJxS-wHaHa?pid=ImgDet&rs=1" class = "clock-image">
+            </div>
+            <div class = "time-div">
+               <h2 class = "currentTime">0:0:0</h2>
+            </div>
+            <div class = "selection-div">
+               <select class = "selection1 js-option1">
+                  <option>Hours</option>
+               </select>
+               <select class = "selection2 js-option2">
+                  <option>Minutes</option>
+               </select>
+               <select class = "selection3 js-option3">
+                  <option>Seconds</option>
+               </select>
+            </div>
+            <div class = "button-div">
+               <button class = "alarm-button js-alarm-button">Set Alarm</button>
+            </div>
+         </div>
+      </div>
+      <script>
+         let selection1 = document.querySelector('.selection1');
+         let selection2 = document.querySelector('.selection2');
+         let selection3 = document.querySelector('.selection3');
+         let selectoptions1 = ''; 
+         for (i=0;i<=12;i++) {
+             const html = `<option class = 'option1'>${i}</option>`;
+             selectoptions1 += html;
+         }
+         selection1.innerHTML = `<option class = 'option2'>Hours</option>` + selectoptions1;
+         let selectoptions2 = '';
+         for (i=0;i<=59;i++) {
+            const html = `<option class = 'option3'>${i}</option>`;
+            selectoptions2 += html;
+         }
+         selection2.innerHTML = `<option>Minutes</option>` + selectoptions2;
+         let selectoptions3 = '';
+         for (i=1;i<=59;i++) {
+            const html = `<option>${i}</option>`;
+            selectoptions3 += html;
+         }
+         selection3.innerHTML = `<option>Seconds</option>` + selectoptions3;
+         let currenttime = document.querySelector('.currentTime');
+         let h = 0;
+         let m = 0;
+         let s = 0;
+         setInterval(() => {
+             s = s + 1;
+             if (m == 59) {
+               h = h + 1
+               s = 0
+             }
+             else if (h == 23 && m == 59) {
+               h = 0;
+               m = 0;
+               s = 0;
+             }
+             else if (s > 59) {
+                m = m + 1;
+                s = 0
+             }
+             currentTime = `${h}:${m}:${s}`;
+             currenttime.innerHTML = currentTime;
+             let alarmbutton = document.querySelector('.alarm-button');
+             let selectop1 =  document.querySelector('.js-option1');
+             let selectop2 =  document.querySelector('.js-option2');
+             let selectop3 =  document.querySelector('.js-option3');
+             let optionVal1 = selectop1.value;
+             let optionVal2 = selectop2.value;
+             let optionVal3 = selectop3.value;
+             let audio1 = new Audio('alarm-clock-short-6402.mp3');
+             let buttonalarm = document.querySelector('.alarm-button');
+             document.querySelector('.js-alarm-button').addEventListener('click',() => {
+               buttonalarm.style = 'border: 2px solid black;';
+               if (buttonalarm.innerHTML == 'Set Alarm') {
+                  intervalId = setInterval(() => {
+                      time();
+                  },100)
+               }          
+             })
+            function time() {
+               if (h == optionVal1 && m == optionVal2 && s == optionVal3) {
+                 audio1.play();
+                 buttonalarm.style = 'border: 2px solid lightgray;';
+                 clearInterval(intervalId);
+               } 
+            }
+            },1000)
+      </script>
+   </body>
+</html>
